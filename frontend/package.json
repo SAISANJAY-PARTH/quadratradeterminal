@@ -1,0 +1,33 @@
+{
+  "name": "pro-trading-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "vite",
+    "dev:server": "tsx watch server/index.ts",
+    "build": "vite build",
+    "start": "node dist-server/index.cjs",
+    "build:server": "tsc -p tsconfig.server.json && node -e \"const fs=require('fs');const c=fs.readFileSync('dist-server/index.js','utf8');fs.writeFileSync('dist-server/index.cjs',c);\""
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@types/xml2js": "^0.4.14",
+    "@vitejs/plugin-react": "^4.3.0",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.7.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}
