@@ -3,7 +3,7 @@ import { OHLCV, QuoteInfo, SearchResult, NewsItem, Period } from '../types';
 import { computeIndicators } from '../lib/indicators';
 import { IndicatorRow } from '../types';
 
-const BASE = 'https://quadratradeterminal-1.onrender.com/api';
+const BASE = 'https://quadratradeterminal.onrender.com';
 
 export function useStockData() {
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export function useStockData() {
       fetch(`${BASE}/fundamentals?ticker=${encodeURIComponent(ticker)}`)
         .then(r => r.ok ? r.json() : null)
         .then(data => { if (data && !data.error) setFundamentals(data); })
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => setFundLoading(false));
 
     } catch (e: unknown) {
@@ -54,7 +54,9 @@ export function useStockData() {
   const searchTickers = useCallback(async (query: string): Promise<SearchResult[]> => {
     if (!query || query.length < 2) return [];
     try {
-      const res = await fetch(`${BASE}/search?q=${encodeURIComponent(query)}`);
+      const res = await fetch(
+        `${BASE}/api/search?q=${encodeURIComponent(query)}`
+      );
       if (!res.ok) return [];
       const json = await res.json();
       return json.results || [];
