@@ -38,10 +38,25 @@ export function useStockData() {
       // Fetch fundamentals in background (non-blocking)
       setFundLoading(true);
       fetch(`${BASE}/api/fundamentals?ticker=${encodeURIComponent(ticker)}`)
-        .then(r => r.ok ? r.json() : null)
-        .then(data => { if (data && !data.error) setFundamentals(data); })
-        .catch(() => { })
-        .finally(() => setFundLoading(false));
+        .then(async r => {
+          if (!r.ok) {
+            const txt = await r.text();
+            console.error("Fundamentals API Error:", r.status, txt);
+            return null;
+          }
+          return r.json();
+        })
+        .then(data => {
+          if (data && !data.error) {
+            setFundamentals(data);
+          }
+        })
+        .catch(err => {
+          console.error("Fundamentals Fetch Failed:", err);
+        })
+        .finally(() => {
+          setFundLoading(false);
+        });
 
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Unknown error');
