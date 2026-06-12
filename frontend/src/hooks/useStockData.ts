@@ -20,9 +20,9 @@ export function useStockData() {
     setFundamentals(null);
     try {
       const [histRes, quoteRes, newsRes] = await Promise.all([
-        fetch(`${BASE}/history?ticker=${encodeURIComponent(ticker)}&period=${period}`),
-        fetch(`${BASE}/quote?ticker=${encodeURIComponent(ticker)}`),
-        fetch(`${BASE}/news?ticker=${encodeURIComponent(ticker)}`),
+        fetch(`${BASE}/api/history?ticker=${encodeURIComponent(ticker)}&period=${period}`),
+        fetch(`${BASE}/api/quote?ticker=${encodeURIComponent(ticker)}`),
+        fetch(`${BASE}/api/news?ticker=${encodeURIComponent(ticker)}`),
       ]);
 
       if (!histRes.ok) throw new Error(`No data for ${ticker}`);
@@ -37,7 +37,7 @@ export function useStockData() {
 
       // Fetch fundamentals in background (non-blocking)
       setFundLoading(true);
-      fetch(`${BASE}/fundamentals?ticker=${encodeURIComponent(ticker)}`)
+      fetch(`${BASE}/api/fundamentals?ticker=${encodeURIComponent(ticker)}`)
         .then(r => r.ok ? r.json() : null)
         .then(data => { if (data && !data.error) setFundamentals(data); })
         .catch(() => { })
